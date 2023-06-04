@@ -3,230 +3,187 @@ package analisador_sintatico.com.br;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PushbackReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Lexico {
-    
+
     private String caminhoArquivo;
-    private String nomeArquivo;
+    private String nomeDoArquivo;
     private int c;
     BufferedReader bufferedReader;
+    PushbackReader br;
 
-    public Lexico(String nomeArquivo){
-        this.caminhoArquivo = Paths.get(nomeArquivo).toAbsolutePath().toString();
-        this.nomeArquivo = nomeArquivo;
+    private ArrayList<String> palavrasReservadas = new ArrayList<String>(
+            Arrays.asList(
+                    "and", "array", "begin", "case", "const", "div",
+                    "do", "downto", "else", "end", "file", "for",
+                    "function", "goto", "if", "in", "label", "mod",
+                    "nil", "not", "of", "or", "packed", "procedure",
+                    "program", "record", "repeat", "set", "then",
+                    "to", "type", "until", "var", "while", "with",
+                    "read", "write", "real", "integer"));
+
+    public Lexico(String nomeDoArquivo) {
+        this.caminhoArquivo = Paths.get(nomeDoArquivo).toAbsolutePath().toString();
+        this.nomeDoArquivo = nomeDoArquivo;
 
         try {
             this.bufferedReader = new BufferedReader(new FileReader(this.caminhoArquivo, StandardCharsets.UTF_8));
-            this.c = this.bufferedReader.read();
-        } catch(IOException error){
-            System.err.println("Dont Possible open to file with name " + this.nomeArquivo);
+            this.br = new PushbackReader(bufferedReader);
+            this.c = this.br.read();
+        } catch (IOException error) {
+            System.err.println("Nao é possível abrir o arquivo: " + this.nomeDoArquivo);
             error.printStackTrace();
         }
     }
 
-    public Token getToken(){
+    public Token getToken(int linha, int coluna) {
         StringBuilder lexema = new StringBuilder("");
         char caractere;
         Token token = new Token();
+        int tamanhoDoToken = 0;
+        int quantidadeEspacos = 0;
 
         try {
-
-            while (c != -1) { 
+            while (c != 1) {
                 caractere = (char) c;
                 if (!(c == 13 || c == 10)) {
                     if (caractere == ' ') {
                         while (caractere == ' ') {
                             c = this.bufferedReader.read();
+                            quantidadeEspacos++;
                             caractere = (char) c;
                         }
                     } else if (Character.isLetter(caractere)) {
                         while (Character.isLetter(caractere) || Character.isDigit(caractere)) {
                             lexema.append(caractere);
                             c = this.bufferedReader.read();
+                            tamanhoDoToken++;
                             caractere = (char) c;
                         }
-                        Valor valor = new Valor();
-                        token.setClasse(TokenEnum.cId);
-                        valor.setValorIdentificador(lexema.toString());
-                        token.setValor(valor);
+                        if (palavrasReservadas.contains(lexema.toString())) {
+                            token.setClasse(TokenEnum.cPalRes);
+                        } else {
+                            token.setClasse(TokenEnum.cId);
+                        }
+                        token.setTamanhoDoToken(tamanhoDoToken);
+                        token.setColuna(coluna + quantidadeEspacos);
+                        token.setLinha(linha);
                         return token;
                     } else if (Character.isDigit(caractere)) {
-                        while (Character.isDigit(caractere) || caractere=='.') {
+                        int quantidadeDePontos = 0;
+                        while (Character.isDigit(caractere) || caractere == '.') {
+                            if (caractere == '.') {
+                                quantidadeDePontos++;
+                            }
                             lexema.append(caractere);
                             c = this.bufferedReader.read();
+                            tamanhoDoToken++;
                             caractere = (char) c;
                         }
-                        Valor valor = new Valor();
-                        token.setClasse(TokenEnum.cInt);
-                        valor.setValorInteiro(Integer.parseInt(lexema.toString()));
-                        token.setValor(valor);
-                        return token;
-                        
-                    }else {
-                        if(caractere==':'){
-                            while(caractere == ':'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
+                        if (quantidadeDePontos <= 1) {
+                            if (quantidadeDePontos == 0) {
+                                token.setClasse(TokenEnum.cInt);
+                                Valor valor = new Valor(Integer.parseInt(lexema.toString()));
+                                token.setValor(valor);
+                            } else {
+                                token.setClasse(TokenEnum.cReal);
+                                Valor valor = new Valor(Float.parseFloat(lexema.toString()));
+                                token.setValor(valor);
                             }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cDoisPontos);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
+                            token.setTamanhoDoToken(tamanhoDoToken);
+                            token.setColuna(coluna + quantidadeEspacos);
+                            token.setLinha(linha);
                             return token;
-                        }else if(caractere=='+'){
-                            while(caractere == '+'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cMais);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='-'){
-                            while(caractere == '-'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cMenor);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='/'){
-                            while(caractere == '/'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cDivisao);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='*'){
-                            while(caractere == '*'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cMultiplicacao);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='>'){
-                            while(caractere == '>'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cMaior);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='<'){
-                            while(caractere == '<'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setClasse(TokenEnum.cMenor);
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='='){
-                            while(caractere == '='){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cIgual);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere==','){
-                            while(caractere == ','){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cVirgula);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere==';'){
-                            while(caractere == ';'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cPontoVirgula);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='.'){
-                            while(caractere == '.'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cPonto);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere=='('){
-                            while(caractere == '('){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cParEsq);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else if(caractere==')'){
-                            while(caractere == ')'){
-                                lexema.append(caractere);
-                                c = this.bufferedReader.read();
-                                caractere = (char) c;
-                            }
-                            Valor valor = new Valor();
-                            token.setClasse(TokenEnum.cParDir);
-                            valor.setValorIdentificador(lexema.toString());
-                            token.setValor(valor);
-                            return token;
-                        }else{
-                            token.setClasse(TokenEnum.cEOF);
                         }
-                        
-                        token.setValor(null);
-                        c = this.bufferedReader.read();
+                    } else {
+                        tamanhoDoToken++;
+                        if (caractere == ':' | caractere == '>' | caractere == '<') {
+                            if (caractere == ':') {
+                                int proximo = this.br.read();
+                                caractere = (char) proximo;
+                                if (caractere == '=') {
+                                    tamanhoDoToken++;
+                                    token.setClasse(TokenEnum.cAtribuicao);
+                                } else {
+                                    this.br.unread(proximo);
+                                    token.setClasse(TokenEnum.cDoisPontos);
+                                }
+                            } else if (caractere == '>') {
+                                int proximo = this.br.read();
+                                caractere = (char) proximo;
+                                if (caractere == '=') {
+                                    tamanhoDoToken++;
+                                    token.setClasse(TokenEnum.cMaiorIgual);
+                                } else {
+                                    this.br.unread(proximo);
+                                    token.setClasse(TokenEnum.cMaior);
+                                }
+                            } else if (caractere == '<') {
+                                int proximo = this.br.read();
+                                caractere = (char) proximo;
+                                if (caractere == '=') {
+                                    tamanhoDoToken++;
+                                    token.setClasse(TokenEnum.cMenorIgual);
+                                } else if (caractere == '>') {
+                                    tamanhoDoToken++;
+                                    token.setClasse(TokenEnum.cDiferente);
+                                } else {
+                                    this.br.unread(proximo);
+                                    token.setClasse(TokenEnum.cMenor);
+                                }
+                            }
+                        } else {
+                            if (caractere == '+') {
+                                token.setClasse(TokenEnum.cMais);
+                            } else if (caractere == '-') {
+                                token.setClasse(TokenEnum.cMenos);
+                            } else if (caractere == '/') {
+                                token.setClasse(TokenEnum.cDivisao);
+                            } else if (caractere == '*') {
+                                token.setClasse(TokenEnum.cMultiplicacao);
+                            } else if (caractere == '=') {
+                                token.setClasse(TokenEnum.cIgual);
+                            } else if (caractere == ',') {
+                                token.setClasse(TokenEnum.cVirgula);
+                            } else if (caractere == ';') {
+                                token.setClasse(TokenEnum.cPontoVirgula);
+                            } else if (caractere == '.') {
+                                token.setClasse(TokenEnum.cPonto);
+                            } else if (caractere == '(') {
+                                token.setClasse(TokenEnum.cParEsq);
+                            } else if (caractere == ')') {
+                                token.setClasse(TokenEnum.cParDir);
+                            } else {
+                                token.setClasse(TokenEnum.cEOF);
+                            }
+                        }
+                        token.setTamanhoDoToken(tamanhoDoToken);
+                        token.setColuna(coluna + quantidadeEspacos);
+                        token.setLinha(linha);
                         return token;
                     }
-                }else{
-                    c = this.bufferedReader.read();
+                } else {
+                    c = this.br.read();
+                    linha++;
+                    quantidadeEspacos = 0;
+                    tamanhoDoToken = 0;
+                    coluna = 1;
                 }
             }
-
             token.setClasse(TokenEnum.cEOF);
             return token;
-        } catch (IOException err) {
-            System.err.println("Dont possible open file this name " + this.nomeArquivo);
+        } catch (
+
+        IOException err) {
+            System.err.println("Don't possible to open file: " + this.nomeDoArquivo);
             err.printStackTrace();
         }
         return null;
     }
+
 }
