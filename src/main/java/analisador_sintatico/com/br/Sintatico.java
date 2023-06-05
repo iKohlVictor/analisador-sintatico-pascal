@@ -8,7 +8,7 @@ public class Sintatico {
 
     public void lerToken() {
         token = lexico.getToken(linha, coluna);
-        coluna = token.getColuna();
+        coluna = token.getColuna() + token.getTamanhoDoToken();
         linha = token.getLinha();
         System.out.println(token);
     }

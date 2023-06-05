@@ -65,7 +65,7 @@ public class Lexico {
                             tamanhoDoToken++;
                             caractere = (char) c;
                         }
-                        if (palavrasReservadas.contains(lexema.toString())) {
+                        if (palavrasReservadas.contains(lexema.toString().toLowerCase())) {
                             token.setClasse(TokenEnum.cPalRes);
                         } else {
                             token.setClasse(TokenEnum.cId);
