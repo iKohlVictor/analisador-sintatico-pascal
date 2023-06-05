@@ -1,6 +1,6 @@
-program CalcularSalario
+Program CalcularSalario
 Var TempoEmAnos, ValorSalario : Integer;
-Begin.
+Begin
   If (TempoEmAnos > 10) Then
   Begin
     ValorSalario := 100;

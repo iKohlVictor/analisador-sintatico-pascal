@@ -177,7 +177,6 @@ public class Sintatico {
     }
 
     public void comando() {
-
         if (validaPrograma("read")) {
             lerToken();
             if (token.getClasse() == TokenEnum.cParEsq) {

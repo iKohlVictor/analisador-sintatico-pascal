@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("começou o arquivo");
 
         String nomeDoArquivo = "test.pas";
 

@@ -1,6 +1,41 @@
-começou o arquivo
-Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'program'], linha..:1, coluna..:1, tamanho do token..: 7 }
-Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'CalcularSalario'], linha..:1, coluna..:2, tamanho do token..: 15 }
-Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Var'], linha..:2, coluna..:1, tamanho do token..: 3 }
-Error na linha: 2 e na coluna: 1 - faltou começar com begin.
-Error na linha: 2 e na coluna: 1 - faltou encerrar com ponto.
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Program'], linha..:1, coluna..:1 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'CalcularSalario'], linha..:1, coluna..:9 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Var'], linha..:2, coluna..:1 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'TempoEmAnos'], linha..:2, coluna..:5 }
+Token { TokenEnum..: cVirgula, valor..: null, linha..:2, coluna..:16 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'ValorSalario'], linha..:2, coluna..:18 }
+Token { TokenEnum..: cDoisPontos, valor..: null, linha..:2, coluna..:31 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Integer'], linha..:2, coluna..:33 }
+Token { TokenEnum..: cPontoVirgula, valor..: null, linha..:2, coluna..:40 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Begin'], linha..:3, coluna..:1 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'If'], linha..:4, coluna..:3 }
+Token { TokenEnum..: cParEsq, valor..: null, linha..:4, coluna..:6 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'TempoEmAnos'], linha..:4, coluna..:7 }
+Token { TokenEnum..: cMaior, valor..: null, linha..:4, coluna..:19 }
+Token { TokenEnum..: cInt, valor..: Valor [valorInteiro..:10, valorDecimal..:0.0, valorIdentificador..:'null'], linha..:4, coluna..:21 }
+Token { TokenEnum..: cParDir, valor..: null, linha..:4, coluna..:23 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Then'], linha..:4, coluna..:25 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Begin'], linha..:5, coluna..:3 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'ValorSalario'], linha..:6, coluna..:5 }
+Token { TokenEnum..: cAtribuicao, valor..: null, linha..:6, coluna..:18 }
+Token { TokenEnum..: cInt, valor..: Valor [valorInteiro..:100, valorDecimal..:0.0, valorIdentificador..:'null'], linha..:6, coluna..:21 }
+Token { TokenEnum..: cPontoVirgula, valor..: null, linha..:6, coluna..:24 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'End'], linha..:7, coluna..:3 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Else'], linha..:8, coluna..:3 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Begin'], linha..:9, coluna..:3 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'ValorSalario'], linha..:10, coluna..:5 }
+Token { TokenEnum..: cAtribuicao, valor..: null, linha..:10, coluna..:18 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'ValorSalario'], linha..:10, coluna..:21 }
+Token { TokenEnum..: cMultiplicacao, valor..: null, linha..:10, coluna..:34 }
+Token { TokenEnum..: cInt, valor..: Valor [valorInteiro..:2, valorDecimal..:0.0, valorIdentificador..:'null'], linha..:10, coluna..:36 }
+Token { TokenEnum..: cPontoVirgula, valor..: null, linha..:10, coluna..:37 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'End'], linha..:11, coluna..:3 }
+Token { TokenEnum..: cPontoVirgula, valor..: null, linha..:11, coluna..:6 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Write'], linha..:12, coluna..:3 }
+Token { TokenEnum..: cParEsq, valor..: null, linha..:12, coluna..:8 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'ValorSalario'], linha..:12, coluna..:9 }
+Token { TokenEnum..: cParDir, valor..: null, linha..:12, coluna..:21 }
+Token { TokenEnum..: cPontoVirgula, valor..: null, linha..:12, coluna..:22 }
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'End'], linha..:13, coluna..:1 }
+Token { TokenEnum..: cPonto, valor..: null, linha..:13, coluna..:4 }
+Token { TokenEnum..: cEOF, valor..: null, linha..:13, coluna..:5 }
