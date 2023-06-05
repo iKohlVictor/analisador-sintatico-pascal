@@ -1,0 +1,6 @@
+começou o arquivo
+Token { TokenEnum..: cPalRes, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'program'], linha..:1, coluna..:1, tamanho do token..: 7 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'CalcularSalario'], linha..:1, coluna..:2, tamanho do token..: 15 }
+Token { TokenEnum..: cId, valor..: Valor [valorInteiro..:0, valorDecimal..:0.0, valorIdentificador..:'Var'], linha..:2, coluna..:1, tamanho do token..: 3 }
+Error na linha: 2 e na coluna: 1 - faltou começar com begin.
+Error na linha: 2 e na coluna: 1 - faltou encerrar com ponto.

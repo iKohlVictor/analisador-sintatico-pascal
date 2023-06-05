@@ -54,14 +54,14 @@ public class Lexico {
                 if (!(c == 13 || c == 10)) {
                     if (caractere == ' ') {
                         while (caractere == ' ') {
-                            c = this.bufferedReader.read();
+                            c = this.br.read();
                             quantidadeEspacos++;
                             caractere = (char) c;
                         }
                     } else if (Character.isLetter(caractere)) {
                         while (Character.isLetter(caractere) || Character.isDigit(caractere)) {
                             lexema.append(caractere);
-                            c = this.bufferedReader.read();
+                            c = this.br.read();
                             tamanhoDoToken++;
                             caractere = (char) c;
                         }
@@ -70,9 +70,9 @@ public class Lexico {
                         } else {
                             token.setClasse(TokenEnum.cId);
                         }
-                        token.setTamanhoDoToken(tamanhoDoToken);
-                        token.setColuna(coluna + quantidadeEspacos);
-                        token.setLinha(linha);
+                        adicionarColunaELinha(token, linha, coluna, tamanhoDoToken, quantidadeEspacos);
+                        Valor valor = new Valor(lexema.toString());
+                        token.setValor(valor);
                         return token;
                     } else if (Character.isDigit(caractere)) {
                         int quantidadeDePontos = 0;
@@ -81,7 +81,7 @@ public class Lexico {
                                 quantidadeDePontos++;
                             }
                             lexema.append(caractere);
-                            c = this.bufferedReader.read();
+                            c = this.br.read();
                             tamanhoDoToken++;
                             caractere = (char) c;
                         }
@@ -95,9 +95,8 @@ public class Lexico {
                                 Valor valor = new Valor(Float.parseFloat(lexema.toString()));
                                 token.setValor(valor);
                             }
-                            token.setTamanhoDoToken(tamanhoDoToken);
-                            token.setColuna(coluna + quantidadeEspacos);
-                            token.setLinha(linha);
+                            adicionarColunaELinha(token, linha, coluna, tamanhoDoToken,
+                                    quantidadeEspacos);
                             return token;
                         }
                     } else {
@@ -162,9 +161,10 @@ public class Lexico {
                                 token.setClasse(TokenEnum.cEOF);
                             }
                         }
-                        token.setTamanhoDoToken(tamanhoDoToken);
-                        token.setColuna(coluna + quantidadeEspacos);
-                        token.setLinha(linha);
+                        token.setValor(null);
+                        adicionarColunaELinha(token, linha, coluna, tamanhoDoToken, quantidadeEspacos);
+                        c = this.br.read();
+                        tamanhoDoToken++;
                         return token;
                     }
                 } else {
@@ -184,6 +184,13 @@ public class Lexico {
             err.printStackTrace();
         }
         return null;
+    }
+
+    private void adicionarColunaELinha(Token token, int linha, int coluna, int tamanhoDoToken,
+            int quantidadeEspacos) {
+        token.setTamanhoDoToken(tamanhoDoToken);
+        token.setColuna(coluna + quantidadeEspacos);
+        token.setLinha(linha);
     }
 
 }

@@ -50,7 +50,7 @@ public class Token {
     @Override
     public String toString() {
         return "Token { TokenEnum..: " + classe + ", valor..: " + valor + ", linha..:" + linha + ", coluna..:" + coluna
-                + ", tamanho do token..: " + tamanhoDoToken + " }";
+                + " }";
     }
 
 }
